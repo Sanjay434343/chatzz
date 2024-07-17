@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878936213566",
+    "project_id": "chatzz-b76d6",
+    "storage_bucket": "chatzz-b76d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878936213566:android:117afe179276f964ed696f",
+        "android_client_info": {
+          "package_name": "com.myapp.chatzz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC__Eo73HuJQIkjMmynjM8IqrvsyrM-H5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Page</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Include Firebase SDK scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC__Eo73HuJQIkjMmynjM8IqrvsyrM-H5c",
+        authDomain: "chatzz-b76d6.firebaseapp.com",
+        projectId: "chatzz-b76d6",
+        storageBucket: "chatzz-b76d6.appspot.com",
+        messagingSenderId: "878936213566",
+        appId: "1:878936213566:web:117afe179276f964ed696f"
+    
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app); // Initialize Firebase Authentication
+    const database = getDatabase(app); // Initialize Firebase Realtime Database
+
+    const registerForm = document.getElementById('registerForm');
+    const registerMessage = document.getElementById('registerMessage');
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        // Create user with email and password (Firebase Authentication)
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Store user details including password in Realtime Database under 'users' node
+        await set(ref(database, 'users/' + user.uid), {
+          username: username,
+          email: email,
+          password: password  // Store password here (not recommended for production)
+        });
+
+        console.log('User data stored successfully for:', email);
+        registerMessage.textContent = 'Registration successful!';
+        // Optionally redirect to another page after successful registration
+        // window.location.href = 'main.html';
+      } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+          console.error('Registration error:', error.message);
+          registerMessage.textContent = 'Email is already in use. Please use a different email.';
+        } else {
+          console.error('Registration error:', error.message);
+          registerMessage.textContent = 'Error registering user. Please try again later.';
+        }
+      }
+    });
+
+  </script>
+  <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        background: hsla(0, 100%, 81%, 1);
+    
+        background: linear-gradient(90deg, hsla(0, 100%, 81%, 1) 0%, hsla(272, 100%, 66%, 1) 100%);
+        
+        background: -moz-linear-gradient(90deg, hsla(0, 100%, 81%, 1) 0%, hsla(272, 100%, 66%, 1) 100%);
+        
+        background: -webkit-linear-gradient(90deg, hsla(0, 100%, 81%, 1) 0%, hsla(272, 100%, 66%, 1) 100%);
+        
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF9F9F", endColorstr="#AE51FF", GradientType=1 );
+      }
+      
+      /* Loader styles */
+      .loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: #333;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      
+      /* Content area (shown after loader) */
+      .content {
+        display: none; /* Hidden initially */
+        text-align: center;
+        padding: 20px;
+      }
+      
+      .content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .content p {
+        font-size: 1.2rem;
+      }
+      
+      /* Login page styles */
+      .register-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+    
+        margin-top: 100px;
+      }
+      
+      .register-container h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        text-align: left;
+        font-size: 24px;
+        margin-left: 5px;
+        text-transform: uppercase;
+        font-weight:1000;
+        color: white;
+      }
+      
+      .register-container form {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .register-container input[type="email"],
+      .register-container input[type="text"],
+
+      .register-container input[type="password"] {
+        padding: 15px 15px;
+        margin-bottom: 1rem;
+        border: 3px solid #ffffff;
+        border-radius: 10px;
+        background-color: #FFFFFF37;
+        font-size: 17px;
+        max-width: 600px;
+        color: white;
+        font-weight: bold;
+      }
+      
+      .register-container button {
+        padding: 10px 20px;
+        background-color: #8800ff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      .register-container button:hover {
+        background-color: #b662ff;
+      }
+      
+      .register-container p {
+        margin-top: 1rem;
+        text-align: center;
+        color: #ff0000;
+      }
+      
+      .tit{
+        margin-top: 30px;
+        margin-left: 20px;
+        font-weight: 1000;
+        color: white;
+      }
+    
+  </style>
+</head>
+<body>
+  <h1 class="tit">CHATZZ</h1>
+  <div class="register-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+    <p id="registerMessage"></p>
+  </div>
+</body>
+</html>
