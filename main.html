@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Grid</title>
   <style>
+
+    body{
+        height: 100vh;
+        background: hsla(0, 100%, 81%, 1);
+    
+        background: linear-gradient(90deg, hsla(0, 100%, 81%, 1) 0%, hsla(272, 100%, 66%, 1) 100%);
+        
+        background: -moz-linear-gradient(90deg, hsla(0, 100%, 81%, 1) 0%, hsla(272, 100%, 66%, 1) 100%);
+        
+        background: -webkit-linear-gradient(90deg, hsla(0, 100%, 81%, 1) 0%, hsla(272, 100%, 66%, 1) 100%);
+        
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF9F9F", endColorstr="#AE51FF", GradientType=1 );
+  
+    }
     /* Basic styling for the card and grid */
     .user-grid {
       display: grid;
@@ -17,6 +31,12 @@
       padding: 15px;
       border-radius: 8px;
       text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: white;
+    }
+    .user-card:hover {
+      background-color: #00000070;
     }
   </style>
   <!-- Include Firebase SDK scripts -->
@@ -62,6 +82,9 @@
               }
             } else {
               console.log('No user data available');
+              const noDataMessage = document.createElement('p');
+              noDataMessage.textContent = 'No user data available';
+              userGrid.appendChild(noDataMessage);
             }
           })
           .catch((error) => {
@@ -76,6 +99,9 @@
           <h3>${userData.username}</h3>
           <p>Email: ${userData.email}</p>
         `;
+        userCard.addEventListener('click', () => {
+          window.location.href = `chat.html?email=${encodeURIComponent(userData.email)}`;
+        });
         return userCard;
       }
     });
